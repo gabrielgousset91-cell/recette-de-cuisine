@@ -12,7 +12,7 @@ body {
 }
 
 a {
-    color: #c0562b;
+    color: #2563eb;
     text-decoration: none;
 }
 
@@ -28,7 +28,7 @@ a:hover {
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
-    background-color: #c0562b;
+    background-color: #2563eb;
 }
 
 .entete .logo {
@@ -171,7 +171,7 @@ a:hover {
 
 .bouton {
     display: inline-block;
-    background-color: #c0562b;
+    background-color: #2563eb;
     color: white;
     border: none;
     padding: 0.6rem 1.2rem;
@@ -181,7 +181,7 @@ a:hover {
 }
 
 .bouton:hover {
-    background-color: #a0481f;
+    background-color: #1d4ed8;
     text-decoration: none;
 }
 

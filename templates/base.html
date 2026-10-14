@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block titre %}Mes Recettes{% endblock %}</title>
+    <title>{% block titre %}Mes Recettes Maison{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
     <header class="entete">
-        <a href="{{ url_for('index') }}" class="logo">🍳 Mes Recettes</a>
+        <a href="{{ url_for('index') }}" class="logo">🍳 Mes Recettes Maison</a>
         <nav>
             <a href="{{ url_for('index') }}">Accueil</a>
             <a href="{{ url_for('ajouter_recette') }}">Ajouter une recette</a>
