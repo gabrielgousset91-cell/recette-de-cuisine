@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titre %}Mes Recettes{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header class="entete">
+        <a href="{{ url_for('index') }}" class="logo">🍳 Mes Recettes</a>
+        <nav>
+            <a href="{{ url_for('index') }}">Accueil</a>
+            <a href="{{ url_for('ajouter_recette') }}">Ajouter une recette</a>
+            <a href="{{ url_for('favoris') }}">Mes favoris</a>
+        </nav>
+    </header>
+
+    <main class="contenu">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="messages-flash">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        {% block contenu %}{% endblock %}
+    </main>
+
+</body>
+</html>

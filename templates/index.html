@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block titre %}Mes Recettes{% endblock %}
+
+{% block contenu %}
+    <h1>Toutes les recettes</h1>
+
+    <form method="get" class="formulaire-filtre">
+        <select name="categorie">
+            <option value="">Toutes les catégories</option>
+            {% for cat in categories %}
+                <option value="{{ cat }}" {% if cat == categorie_selectionnee %}selected{% endif %}>{{ cat }}</option>
+            {% endfor %}
+        </select>
+
+        <input type="text" name="q" placeholder="Rechercher un titre ou un ingrédient..." value="{{ recherche or '' }}">
+
+        <button type="submit">Filtrer</button>
+    </form>
+
+    {% if recettes %}
+        <div class="grille-recettes">
+            {% for recette in recettes %}
+                {% include "_carte_recette.html" %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Aucune recette ne correspond à votre recherche.</p>
+    {% endif %}
+{% endblock %}

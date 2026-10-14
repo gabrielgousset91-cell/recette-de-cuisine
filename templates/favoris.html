@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block titre %}Mes favoris{% endblock %}
+
+{% block contenu %}
+    <h1>Mes recettes favorites</h1>
+
+    {% if recettes %}
+        <div class="grille-recettes">
+            {% for recette in recettes %}
+                {% include "_carte_recette.html" %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Aucun favori pour l'instant. Cliquez sur le cœur d'une recette pour l'ajouter ici !</p>
+    {% endif %}
+{% endblock %}

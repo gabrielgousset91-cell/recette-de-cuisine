@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block titre %}{% if mode == "ajout" %}Ajouter une recette{% else %}Modifier la recette{% endif %}{% endblock %}
+
+{% block contenu %}
+    <h1>{% if mode == "ajout" %}Ajouter une recette{% else %}Modifier la recette{% endif %}</h1>
+
+    <form method="post" class="formulaire-recette">
+
+        <label for="titre">Titre</label>
+        <input type="text" id="titre" name="titre" required value="{{ recette['titre'] if recette else '' }}">
+
+        <label for="description">Description</label>
+        <textarea id="description" name="description">{{ recette['description'] if recette else '' }}</textarea>
+
+        <div class="ligne-champs">
+            <div>
+                <label for="temps_preparation">Préparation (min)</label>
+                <input type="number" id="temps_preparation" name="temps_preparation" min="0"
+                       value="{{ recette['temps_preparation'] if recette else 0 }}">
+            </div>
+            <div>
+                <label for="temps_cuisson">Cuisson (min)</label>
+                <input type="number" id="temps_cuisson" name="temps_cuisson" min="0"
+                       value="{{ recette['temps_cuisson'] if recette else 0 }}">
+            </div>
+            <div>
+                <label for="nombre_personnes">Nombre de personnes</label>
+                <input type="number" id="nombre_personnes" name="nombre_personnes" min="1"
+                       value="{{ recette['nombre_personnes'] if recette else 4 }}">
+            </div>
+            <div>
+                <label for="categorie">Catégorie</label>
+                <select id="categorie" name="categorie">
+                    {% for cat in categories %}
+                        <option value="{{ cat }}" {% if recette and recette['categorie'] == cat %}selected{% endif %}>{{ cat }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <h2>Ingrédients</h2>
+        <div id="lignes-ingredients">
+            {% for ingredient in ingredients %}
+                <div class="ligne-ingredient">
+                    <input type="text" name="ingredient_nom[]" placeholder="Nom" value="{{ ingredient['nom'] }}">
+                    <input type="number" step="any" name="ingredient_quantite[]" placeholder="Quantité" value="{{ ingredient['quantite']|quantite }}">
+                    <input type="text" name="ingredient_unite[]" placeholder="Unité" value="{{ ingredient['unite'] }}">
+                    <button type="button" class="bouton-supprimer-ligne">✕</button>
+                </div>
+            {% else %}
+                <div class="ligne-ingredient">
+                    <input type="text" name="ingredient_nom[]" placeholder="Nom">
+                    <input type="number" step="any" name="ingredient_quantite[]" placeholder="Quantité">
+                    <input type="text" name="ingredient_unite[]" placeholder="Unité">
+                    <button type="button" class="bouton-supprimer-ligne">✕</button>
+                </div>
+            {% endfor %}
+        </div>
+        <button type="button" id="ajouter-ingredient" class="bouton-secondaire">+ Ajouter un ingrédient</button>
+
+        <template id="modele-ligne-ingredient">
+            <div class="ligne-ingredient">
+                <input type="text" name="ingredient_nom[]" placeholder="Nom">
+                <input type="number" step="any" name="ingredient_quantite[]" placeholder="Quantité">
+                <input type="text" name="ingredient_unite[]" placeholder="Unité">
+                <button type="button" class="bouton-supprimer-ligne">✕</button>
+            </div>
+        </template>
+
+        <h2>Étapes de préparation</h2>
+        <div id="lignes-etapes">
+            {% for etape in steps %}
+                <div class="ligne-etape">
+                    <textarea name="etape_texte[]" placeholder="Décrivez l'étape...">{{ etape['texte'] }}</textarea>
+                    <button type="button" class="bouton-supprimer-ligne">✕</button>
+                </div>
+            {% else %}
+                <div class="ligne-etape">
+                    <textarea name="etape_texte[]" placeholder="Décrivez l'étape..."></textarea>
+                    <button type="button" class="bouton-supprimer-ligne">✕</button>
+                </div>
+            {% endfor %}
+        </div>
+        <button type="button" id="ajouter-etape" class="bouton-secondaire">+ Ajouter une étape</button>
+
+        <template id="modele-ligne-etape">
+            <div class="ligne-etape">
+                <textarea name="etape_texte[]" placeholder="Décrivez l'étape..."></textarea>
+                <button type="button" class="bouton-supprimer-ligne">✕</button>
+            </div>
+        </template>
+
+        <div class="actions-formulaire">
+            <button type="submit" class="bouton">
+                {% if mode == "ajout" %}Ajouter la recette{% else %}Enregistrer les modifications{% endif %}
+            </button>
+        </div>
+    </form>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+{% endblock %}

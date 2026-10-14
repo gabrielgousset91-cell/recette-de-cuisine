@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block titre %}{{ recette['titre'] }}{% endblock %}
+
+{% block contenu %}
+    <div class="fil-ariane">
+        <a href="{{ url_for('index') }}">&larr; Retour à la liste</a>
+    </div>
+
+    <h1>{{ recette['titre'] }}</h1>
+    <p class="categorie-badge">{{ recette['categorie'] }}</p>
+
+    {% if recette['description'] %}
+        <p class="description">{{ recette['description'] }}</p>
+    {% endif %}
+
+    <div class="infos-pratiques">
+        <span>⏱️ Préparation : {{ recette['temps_preparation'] }} min</span>
+        <span>🔥 Cuisson : {{ recette['temps_cuisson'] }} min</span>
+    </div>
+
+    <div class="actions-recette">
+        <a href="{{ url_for('modifier_recette', recipe_id=recette['id']) }}" class="bouton">Modifier</a>
+        <form action="{{ url_for('supprimer_recette', recipe_id=recette['id']) }}" method="post"
+              onsubmit="return confirm('Voulez-vous vraiment supprimer cette recette ?');" class="form-inline">
+            <button type="submit" class="bouton bouton-danger">Supprimer</button>
+        </form>
+        <form action="{{ url_for('basculer_favori', recipe_id=recette['id']) }}" method="post" class="form-inline">
+            <button type="submit" class="bouton">
+                {% if recette['favori'] %}❤️ Retirer des favoris{% else %}🤍 Ajouter aux favoris{% endif %}
+            </button>
+        </form>
+    </div>
+
+    <section class="section-portions">
+        <label for="personnes">Nombre de personnes :</label>
+        <input type="number" id="personnes" min="1" value="{{ recette['nombre_personnes'] }}"
+               data-portions-base="{{ recette['nombre_personnes'] }}">
+        <span class="note-portions">(les quantités ci-dessous s'adaptent automatiquement)</span>
+    </section>
+
+    <section class="section-ingredients">
+        <h2>Ingrédients</h2>
+        <ul id="liste-ingredients">
+            {% for ingredient in ingredients %}
+                <li data-quantite-base="{{ ingredient['quantite'] }}">
+                    <span class="quantite-affichee">{{ ingredient['quantite']|quantite }}</span>
+                    {{ ingredient['unite'] }} de {{ ingredient['nom'] }}
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section class="section-etapes">
+        <h2>Préparation</h2>
+        <ol id="liste-etapes">
+            {% for etape in steps %}
+                <li>{{ etape['texte'] }}</li>
+            {% endfor %}
+        </ol>
+    </section>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+{% endblock %}
